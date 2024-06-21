@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="EN-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="module" src="/src/main.js"></script>
+        <link rel="stylesheet" href="/styles/style.css">
+        <title>JS Whimsy</title>
+    </head>
+    <body>
+        <header>
+            <h1>Sequential Function Calls</h1>
+            <h3>Calling multiple asynchronous operations using callback and Promise.</h3>
+        </header>
+        <section>
+            <h5>Callback Functions</h5>
+            <article>
+                A callback function is a function that is passed as an argument to another function, 
+                to be “called back” at a later time. A function that accepts other functions as arguments 
+                is called a higher-order function, which contains the logic for when the callback function gets executed.
+                It's the combination of these two that allow us to extend our functionality.
+                Here it has been used to maintain the sequence of function calls.
+                <hr>
+                <code class="code">
+                    walkDog(() => {
+                        cleanKitchen(() => {
+                            removeTrash(() => { 
+                                setTimeout(() => {
+                                    const node = document.createElement('p');
+                                    node.setAttribute('class', 'success')
+                                    node.setAttribute('id', 'result');
+                                    node.innerHTML = 'All tasks complete.';
+                                    container.appendChild(node);
+                                    document.getElementById('callback').disabled = false;
+                                    document.getElementById('promise').disabled = false;
+                                    }, 50);
+                            });
+                        });
+                    });
+                </code>
+                <hr>
+            </article>
+            <h5>Promise</h5>
+            <article>
+                In JavaScript, a promise is a placeholder (proxy) for the value of an ongoing operation.
+                Promises are used to simplify managing multiple asynchronous operations, preventing 
+                callback hell and unmanageable code. They represent future values, associating handlers with eventual 
+                success or failure, resembling synchronous methods by postponing value delivery until later.
+                Using the then() function, promises can also be chained as demonstrated here.
+                <hr>
+                <code class="code">
+                    walkDog().then((value) => {
+                        demo.innerHTML = value;
+                        return cleanKitchen();
+                    }).then((value) => {
+                        demo.innerHTML += value;
+                        return removeTrash();
+                    }).then((value) => {
+                        demo.innerHTML += value;
+                        setTimeout(() => {
+                            node.innerHTML = 'All tasks complete.';
+                            node.setAttribute('class', 'success');
+                            container.appendChild(node);
+                            document.getElementById('callback').disabled = false;
+                            document.getElementById('promise').disabled = false;
+                        }, 50);
+                    }).catch((error) => {
+                        demo.innerHTML += error;
+                        setTimeout(() => {
+                            node.innerHTML = 'Tasks not completed!';
+                            node.setAttribute('class', 'alert');
+                            container.appendChild(node);
+                            document.getElementById('callback').disabled = false;
+                            document.getElementById('promise').disabled = false;
+                        }, 50);
+                    });
+                </code>
+                <hr>
+            </article>
+        </section>
+        <div class="container">
+            <div class="demo" id="demo"></div>
+            <span class="btn-grp">
+                <button type="submit" class="btn-1" id="callback">Click to use Callbacks!</button>
+                <button type="submit" class="btn-1" id="promise">Click to use Promises!</button>
+            </span>
+        </div>
+        <footer>
+            <span>© 2024 All Rights Reserved.</span>
+        </footer>
+    </body>
+</html>
